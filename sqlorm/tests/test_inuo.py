@@ -10,7 +10,7 @@ else:
 
 import pytest
 import pandas as pd
-
+from sqlalchemy.exc import IntegrityError
 import logging
 
 logging.basicConfig(format='%(process)d-%(levelname)s-%(message)s')
@@ -21,7 +21,7 @@ sys.path.append("..")
 from connectors import DBConnector
 from models import UserData
 
-
+#NOTE use - -v -s  --log-cli-level=1
 
 
 @pytest.fixture
@@ -46,6 +46,24 @@ def sample_dataframe():
     
     return data_frame
 
+@pytest.fixture
+def sample_dataframe_half():
+    """
+    Create a sample data frame for insert
+    """
+
+    data_set = StringIO("""record_id,user_name,email_id
+    12,jagan,jagan@jagan.com
+    17,padma,padma@jagan.com
+    18,gopi,gopi@jagan.com
+    19,vidya,vaidya@jagan.com
+    """)
+
+    data_frame = pd.read_csv(data_set,
+    sep=",")
+    
+    return data_frame
+
 def test_inset_single(sample_dataframe,conn_str):
     """
     Insert no dupicate screnario
@@ -53,6 +71,10 @@ def test_inset_single(sample_dataframe,conn_str):
     logging.info("Starting the no duplicate insert test")
     logging.info(sample_dataframe.head(2))
     with DBConnector(conn_str) as db_conn:
+
+        truncate_stmt = UserData.__table__.delete()
+        db_conn.db_session.execute(truncate_stmt)
+
         db_conn.db_session.bulk_insert_mappings(UserData,
         sample_dataframe.to_dict(orient="records"))
         db_conn.db_session.commit()
@@ -84,12 +106,38 @@ def test_insert_multiple(sample_dataframe,conn_str):
 
         all_records = db_conn.db_session.query(UserData).all()
         logging.info("total recoreds in table {0}".format(len(all_records)))
+
         assert len(all_records) == 4
-        logging.info("Inserted four records inserting the same records again")
-        db_conn.db_session.bulk_insert_mappings(UserData,
-        sample_dataframe.to_dict(orient="records"))
+
+        logging.info("Inserting four records inserting the same records again")
+        try:
+            db_conn.db_session.bulk_insert_mappings(UserData,
+            sample_dataframe.to_dict(orient="records"))
+        except IntegrityError as sqlinterr:
+            logging.error(sqlinterr)
+            logging.info("Filed duplicate reod insert")
+
         logging.info("if you see this message this is done")
 
+@pytest.mark.xfail
+def test_insert_single_dup(sample_dataframe_half,conn_str):
+    """
+    Testing to insert same data frame twice
+    This should should fail
+    """
+    logging.info("Testing single duplicate case")
+    with DBConnector(conn_str) as db_conn:
+        try:
+            db_conn.db_session.bulk_insert_mappings(UserData,
+            sample_dataframe_half.to_dict(orient="records"))
+            db_conn.db_session.commit()
+        except IntegrityError as sqleint:
+            logging.error(sqleint)
+            truncate_stmt = UserData.__table__.delete()
+            db_conn.db_session.execute(truncate_stmt)
+            db_conn.db_session.commit()
+            logging.info("Truncated the table")
+    logging.info("Compleated the single duplicate test")
 
 
 
