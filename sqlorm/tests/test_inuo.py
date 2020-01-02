@@ -64,6 +64,21 @@ def sample_dataframe_half():
     
     return data_frame
 
+@pytest.fixture
+def sample_dataframe_update():
+    """
+    Create a sample data frame for insert
+    """
+
+    data_set = StringIO("""record_id,user_name,email_id
+    13,jagan,jagan@jagan.ip.com
+    """)
+
+    data_frame = pd.read_csv(data_set,
+    sep=",")
+    
+    return data_frame
+
 def test_inset_single(sample_dataframe,conn_str):
     """
     Insert no dupicate screnario
@@ -141,6 +156,68 @@ def test_insert_single_dup(sample_dataframe_half,conn_str):
 
 
 
+def test_update_with_pandas(sample_dataframe_update,conn_str):
+    """
+    Test data uipdate with pandas 
+    """
+    logging.info("Testing single update case")
+    with DBConnector(conn_str) as db_conn:
+        try:
+            db_conn.db_session.bulk_update_mappings(UserData,
+            sample_dataframe_update.to_dict(orient="records"))
+            db_conn.db_session.commit()
+        except IntegrityError as sqleint:
+            logging.error(sqleint)
+            truncate_stmt = UserData.__table__.delete()
+            db_conn.db_session.execute(truncate_stmt)
+            db_conn.db_session.commit()
+            logging.info("Truncated the table")
+    logging.info("Compleated the single duplicate test")
 
 
+def test_insert_single_dup_s(sample_dataframe_half,conn_str):
+    """
+    Testing to insert same data frame twice
+    This should should fail
+    """
+    logging.info("Testing single duplicate case")
+    with DBConnector(conn_str) as db_conn:
+        try:
+            db_conn.db_session.bulk_update_mappings(UserData,
+            sample_dataframe_half.to_dict(orient="records"))
+            db_conn.db_session.commit()
+        except IntegrityError as sqleint:
+            logging.error(sqleint)
+            truncate_stmt = UserData.__table__.delete()
+            db_conn.db_session.execute(truncate_stmt)
+            db_conn.db_session.commit()
+            logging.info("Truncated the table")
+    logging.info("Compleated the single duplicate test")
+
+
+@pytest.mark.xfail
+def test_insert_multiple_update(sample_dataframe,conn_str):
+    """
+    Testing to insert same data frame twice
+    The second attempt is an update. Since it is same record
+    and columns have PK restriction this should fail.
+    """
+    with DBConnector(conn_str) as db_conn:
+        db_conn.db_session.bulk_insert_mappings(UserData,
+        sample_dataframe.to_dict(orient="records"))
+
+        all_records = db_conn.db_session.query(UserData).all()
+        logging.info("total recoreds in table {0}".format(len(all_records)))
+
+        assert len(all_records) == 4
+
+        logging.info("Inserting four records inserting the same records again")
+        try:
+            db_conn.db_session.bulk_update_mappings(UserData,
+            sample_dataframe.to_dict(orient="records"))
+        except IntegrityError as sqlinterr:
+            logging.error(sqlinterr)
+            logging.info("Filed duplicate reod insert")
+
+        logging.info("if you see this message this is done")
 
