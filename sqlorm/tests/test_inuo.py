@@ -18,7 +18,8 @@ logging.basicConfig(format='%(process)d-%(levelname)s-%(message)s')
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 sys.path.append("..")
 
-from connectors import DBConnector
+from connectors import (DBConnector,
+parse_integrity_err)
 from models import UserData
 
 #NOTE use - -v -s  --log-cli-level=1
@@ -201,3 +202,47 @@ def test_insert_multiple_update(sample_dataframe,conn_str):
 
         logging.info("if you see this message this is done")
 
+@pytest.mark.xfail
+def test_alchemy_integrity_error_cpature(sample_dataframe,conn_str):
+    """
+    Capture SQL alchmy errro details de,o
+    """
+
+    logging.info("Writing the initial data")
+
+    with DBConnector(conn_str) as db:
+        db.db_session.bulk_insert_mappings(UserData,
+        sample_dataframe.to_dict(orient="records"))
+
+        logging.info("insrted base data now duplicate entry time")
+
+        try:
+            db.db_session.bulk_insert_mappings(UserData,
+            sample_dataframe.to_dict(orient="records"))
+            logging.info("Inserted duplicate :-()")
+        except IntegrityError as sqlerr:
+            logging.error("Error in inseting data. Table {0} Constraint {1}".format(
+                sqlerr.orig.diag.table_name,
+                sqlerr.orig.diag.constraint_name
+            ))
+            logging.info("Cause of the trouble is {0} ".format(
+                sqlerr.orig.diag.message_detail
+            ))
+
+
+def test_db_integrity_error():
+    """
+    Test the DB integrity eror modeule
+    """
+    logging.info("test integrity started")
+
+    error_message = "Key (user_name)=(jagan) already exists."
+
+    integrity_details = parse_integrity_err(error_message)
+
+    logging.info("Message cpatures is {0}".format(integrity_details))
+
+    assert integrity_details[0] == "user_name"
+    assert integrity_details[1] == "jagan"
+
+    logging.info("test integrity complated")

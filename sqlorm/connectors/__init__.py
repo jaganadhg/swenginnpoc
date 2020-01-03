@@ -1,1 +1,1 @@
-from .connectors import DBConnector
+from .connectors import (DBConnector, parse_integrity_err)
