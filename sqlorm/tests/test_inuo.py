@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import os
 import sys
+import itertools
+
 import unittest
 
 if sys.version_info[0] < 3:
@@ -246,3 +248,75 @@ def test_db_integrity_error():
     assert integrity_details[1] == "jagan"
 
     logging.info("test integrity complated")
+
+
+def test_get_pandas_schema(conn_str,sample_dataframe):
+    """
+    Test the behviour of get_schemaa in Pandas
+    It is not accurate as per schema in the table
+    """
+    from pandas.io.sql import get_schema
+
+    with DBConnector(conn_str) as conn:
+        logging.info(get_schema(sample_dataframe,
+        "userdata",
+        con=conn.engine))
+
+
+
+def test_insert_rt_by_skiiping_exiting(conn_str,sample_dataframe,sample_dataframe_half):
+    """
+    Test to insert by skiiping the existing reods
+    """
+
+    with DBConnector(conn_str) as conn:
+        logging.info("Insert base data")
+        conn.db_session.bulk_insert_mappings(UserData,
+        sample_dataframe.to_dict(orient="records"))
+        logging.info("Inserted base data")
+        conn.db_session.commit()
+
+        try:
+            logging.info("Trying to insert data with one duplicate")
+            conn.db_session.bulk_insert_mappings(UserData,
+            sample_dataframe_half.to_dict(orient="records"))
+        except IntegrityError as sqleer:
+            #import pdb; pdb.set_trace()
+            #logging.info(sqleer)
+            conn.db_session.rollback()
+            integ_key_error = sqleer.orig.diag.message_detail
+
+            primary_key, pk_val = parse_integrity_err(integ_key_error)
+
+            pk_object = getattr(UserData,primary_key)
+
+            exiting_records = conn.db_session.query(pk_object).filter(
+                pk_object.in_(sample_dataframe_half[primary_key].to_list())
+            ).all()
+            exiting_records = list(itertools.chain(*exiting_records))
+
+            logging.info(exiting_records)
+
+            duplicate_emiminated_data = sample_dataframe_half[
+                ~sample_dataframe_half[primary_key].isin(exiting_records)]
+            
+            logging.info("Found existing recods and created new data DataFrame")
+
+            conn.db_session.bulk_insert_mappings(UserData,
+            duplicate_emiminated_data.to_dict(orient="records"))
+
+            retrive_all = conn.db_session.query(UserData).all()
+
+            assert len(retrive_all) == 7
+            assert retrive_all[0].user_name == "jagan"
+
+            assert retrive_all[-1].user_name == "vidya"
+
+            conn.db_session.commit()
+
+            #TODO clean the table
+
+            logging.info('Inserted theclean data')
+
+
+            

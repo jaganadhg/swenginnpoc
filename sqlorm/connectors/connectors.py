@@ -24,10 +24,12 @@ class DBConnector:
     def __init__(self,connection_str):
         self.conn_str = connection_str
         self.db_session = None
+        self.engine = None
 
     
     def __enter__(self):
         db_engine = create_engine(self.conn_str)
+        self.engine = db_engine
         DBSession = sessionmaker()
 
         self.db_session = DBSession(bind=db_engine)
@@ -53,6 +55,9 @@ def parse_integrity_err(err_msg: str) -> Tuple[str,str]:
         The message_detail contains information about 
         Which column caused the primary key error and the
         First value SQLAlchemy tried to insert,
+        :param err_msg: Error message (message_detail)
+        :returns pk_column: Primary key column name
+        :returns pk_val: Primary key value (first one)
     """
 
     message_regex = r"(\(.*\))=(\(.*\))"
