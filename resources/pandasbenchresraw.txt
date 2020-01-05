@@ -1,0 +1,389 @@
+benchmark_readwrite.py::test_get_schema 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:47 
+CREATE TABLE kaggle_data (
+        id BIGINT, 
+        timestamp TEXT, 
+        instrument_token BIGINT, 
+        last_price FLOAT(53), 
+        volume BIGINT, 
+        sell_quantity BIGINT, 
+        last_quantity BIGINT, 
+        change FLOAT(53), 
+        average_price FLOAT(53), 
+        open FLOAT(53), 
+        high FLOAT(53), 
+        low FLOAT(53), 
+        close FLOAT(53), 
+        depth_buy_price_0 FLOAT(53), 
+        depth_buy_orders_0 BIGINT, 
+        depth_buy_quantity_0 BIGINT, 
+        depth_sell_price_0 FLOAT(53), 
+        depth_sell_orders_0 BIGINT, 
+        depth_sell_quantity_0 BIGINT, 
+        depth_buy_price_1 FLOAT(53), 
+        depth_buy_orders_1 BIGINT
+)
+
+
+PASSED
+benchmark_readwrite.py::test_insert_read_by_pandas 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:54 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:63 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:71 Took 2.0 minutes 50.131868839263916 seconds to write the data
+INFO     root:benchmark_readwrite.py:73 Start read testing with read_sql_table
+INFO     root:benchmark_readwrite.py:79 Complated the reading
+INFO     root:benchmark_readwrite.py:87 Took 0.0 minutes 13.665600776672363 seconds to read data
+INFO     root:benchmark_readwrite.py:89 Start read testing with read_sql
+INFO     root:benchmark_readwrite.py:95 Complated the reading
+INFO     root:benchmark_readwrite.py:103 Took 0.0 minutes 13.587455987930298 seconds to read data
+INFO     root:benchmark_readwrite.py:105 Truncating the table
+INFO     root:benchmark_readwrite.py:108 Truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_read_by_model 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:117 Starting the SQLAlchemy insert test
+INFO     root:benchmark_readwrite.py:130 Complated data insert in 3.0 minutes 3.616823434829712 seconds
+INFO     root:benchmark_readwrite.py:134 Start the read operation
+INFO     root:benchmark_readwrite.py:140    id                  timestamp  instrument_token  last_price  ...  depth_sell_orders_0  depth_sell_quantity_0  depth_buy_price_1  depth_buy_orders_1
+0   0 2017-06-20 07:35:05.284824         136519172      253.95  ...                  3.0                  695.0             253.60                 4.0
+1   1 2017-06-20 07:35:05.284898            340481     1637.20  ...                  7.0                  322.0            1637.05                 1.0
+
+[2 rows x 21 columns]
+INFO     root:benchmark_readwrite.py:148 Took 0.0 minutes 15.966919183731079 seconds to read data
+INFO     root:benchmark_readwrite.py:153 truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_by_pandas_multi 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:159 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:169 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:176 Took 6.0 minutes 30.065937042236328 seconds to write the data
+INFO     root:benchmark_readwrite.py:180 Truncated the table
+PASSED
+
+Run 2
+
+benchmark_readwrite.py::test_get_schema 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:47 
+CREATE TABLE kaggle_data (
+        id BIGINT, 
+        timestamp TEXT, 
+        instrument_token BIGINT, 
+        last_price FLOAT(53), 
+        volume BIGINT, 
+        sell_quantity BIGINT, 
+        last_quantity BIGINT, 
+        change FLOAT(53), 
+        average_price FLOAT(53), 
+        open FLOAT(53), 
+        high FLOAT(53), 
+        low FLOAT(53), 
+        close FLOAT(53), 
+        depth_buy_price_0 FLOAT(53), 
+        depth_buy_orders_0 BIGINT, 
+        depth_buy_quantity_0 BIGINT, 
+        depth_sell_price_0 FLOAT(53), 
+        depth_sell_orders_0 BIGINT, 
+        depth_sell_quantity_0 BIGINT, 
+        depth_buy_price_1 FLOAT(53), 
+        depth_buy_orders_1 BIGINT
+)
+
+
+PASSED
+benchmark_readwrite.py::test_insert_read_by_pandas 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:54 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:63 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:71 Took 2.0 minutes 42.724791288375854 seconds to write the data
+INFO     root:benchmark_readwrite.py:73 Start read testing with read_sql_table
+INFO     root:benchmark_readwrite.py:79 Complated the reading
+INFO     root:benchmark_readwrite.py:87 Took 0.0 minutes 13.951900482177734 seconds to read data
+INFO     root:benchmark_readwrite.py:89 Start read testing with read_sql
+INFO     root:benchmark_readwrite.py:95 Complated the reading
+INFO     root:benchmark_readwrite.py:103 Took 0.0 minutes 14.00062608718872 seconds to read data
+INFO     root:benchmark_readwrite.py:105 Truncating the table
+INFO     root:benchmark_readwrite.py:108 Truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_read_by_model 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:117 Starting the SQLAlchemy insert test
+INFO     root:benchmark_readwrite.py:130 Complated data insert in 3.0 minutes 4.8189778327941895 seconds
+INFO     root:benchmark_readwrite.py:134 Start the read operation
+INFO     root:benchmark_readwrite.py:140    id                  timestamp  instrument_token  last_price  ...  depth_sell_orders_0  depth_sell_quantity_0  depth_buy_price_1  depth_buy_orders_1
+0   0 2017-06-20 07:35:05.284824         136519172      253.95  ...                  3.0                  695.0             253.60                 4.0
+1   1 2017-06-20 07:35:05.284898            340481     1637.20  ...                  7.0                  322.0            1637.05                 1.0
+
+[2 rows x 21 columns]
+INFO     root:benchmark_readwrite.py:148 Took 0.0 minutes 13.91882586479187 seconds to read data
+INFO     root:benchmark_readwrite.py:153 truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_by_pandas_multi 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:159 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:169 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:176 Took 5.0 minutes 59.21925210952759 seconds to write the data
+INFO     root:benchmark_readwrite.py:180 Truncated the table
+PASSED
+
+
+Run 3
+
+benchmark_readwrite.py::test_get_schema 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:47 
+CREATE TABLE kaggle_data (
+        id BIGINT, 
+        timestamp TEXT, 
+        instrument_token BIGINT, 
+        last_price FLOAT(53), 
+        volume BIGINT, 
+        sell_quantity BIGINT, 
+        last_quantity BIGINT, 
+        change FLOAT(53), 
+        average_price FLOAT(53), 
+        open FLOAT(53), 
+        high FLOAT(53), 
+        low FLOAT(53), 
+        close FLOAT(53), 
+        depth_buy_price_0 FLOAT(53), 
+        depth_buy_orders_0 BIGINT, 
+        depth_buy_quantity_0 BIGINT, 
+        depth_sell_price_0 FLOAT(53), 
+        depth_sell_orders_0 BIGINT, 
+        depth_sell_quantity_0 BIGINT, 
+        depth_buy_price_1 FLOAT(53), 
+        depth_buy_orders_1 BIGINT
+)
+
+
+PASSED
+benchmark_readwrite.py::test_insert_read_by_pandas 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:54 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:63 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:71 Took 2.0 minutes 32.065359592437744 seconds to write the data
+INFO     root:benchmark_readwrite.py:73 Start read testing with read_sql_table
+INFO     root:benchmark_readwrite.py:79 Complated the reading
+INFO     root:benchmark_readwrite.py:87 Took 0.0 minutes 13.756664991378784 seconds to read data
+INFO     root:benchmark_readwrite.py:89 Start read testing with read_sql
+INFO     root:benchmark_readwrite.py:95 Complated the reading
+INFO     root:benchmark_readwrite.py:103 Took 0.0 minutes 13.611213445663452 seconds to read data
+INFO     root:benchmark_readwrite.py:105 Truncating the table
+INFO     root:benchmark_readwrite.py:108 Truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_read_by_model 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:117 Starting the SQLAlchemy insert test
+INFO     root:benchmark_readwrite.py:130 Complated data insert in 2.0 minutes 47.31037902832031 seconds
+INFO     root:benchmark_readwrite.py:134 Start the read operation
+INFO     root:benchmark_readwrite.py:140    id                  timestamp  instrument_token  last_price  ...  depth_sell_orders_0  depth_sell_quantity_0  depth_buy_price_1  depth_buy_orders_1
+0   0 2017-06-20 07:35:05.284824         136519172      253.95  ...                  3.0                  695.0             253.60                 4.0
+1   1 2017-06-20 07:35:05.284898            340481     1637.20  ...                  7.0                  322.0            1637.05                 1.0
+
+[2 rows x 21 columns]
+INFO     root:benchmark_readwrite.py:148 Took 0.0 minutes 13.712183713912964 seconds to read data
+INFO     root:benchmark_readwrite.py:153 truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_by_pandas_multi 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:159 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:169 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:176 Took 5.0 minutes 37.443015336990356 seconds to write the data
+INFO     root:benchmark_readwrite.py:180 Truncated the table
+PASSED
+
+Run 4
+
+benchmark_readwrite.py::test_get_schema 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:47 
+CREATE TABLE kaggle_data (
+        id BIGINT, 
+        timestamp TEXT, 
+        instrument_token BIGINT, 
+        last_price FLOAT(53), 
+        volume BIGINT, 
+        sell_quantity BIGINT, 
+        last_quantity BIGINT, 
+        change FLOAT(53), 
+        average_price FLOAT(53), 
+        open FLOAT(53), 
+        high FLOAT(53), 
+        low FLOAT(53), 
+        close FLOAT(53), 
+        depth_buy_price_0 FLOAT(53), 
+        depth_buy_orders_0 BIGINT, 
+        depth_buy_quantity_0 BIGINT, 
+        depth_sell_price_0 FLOAT(53), 
+        depth_sell_orders_0 BIGINT, 
+        depth_sell_quantity_0 BIGINT, 
+        depth_buy_price_1 FLOAT(53), 
+        depth_buy_orders_1 BIGINT
+)
+
+
+PASSED
+benchmark_readwrite.py::test_insert_read_by_pandas 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:54 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:63 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:71 Took 2.0 minutes 28.392483711242676 seconds to write the data
+INFO     root:benchmark_readwrite.py:73 Start read testing with read_sql_table
+INFO     root:benchmark_readwrite.py:79 Complated the reading
+INFO     root:benchmark_readwrite.py:87 Took 0.0 minutes 13.953028678894043 seconds to read data
+INFO     root:benchmark_readwrite.py:89 Start read testing with read_sql
+INFO     root:benchmark_readwrite.py:95 Complated the reading
+INFO     root:benchmark_readwrite.py:103 Took 0.0 minutes 13.637262105941772 seconds to read data
+INFO     root:benchmark_readwrite.py:105 Truncating the table
+INFO     root:benchmark_readwrite.py:108 Truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_read_by_model 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:117 Starting the SQLAlchemy insert test
+INFO     root:benchmark_readwrite.py:130 Complated data insert in 2.0 minutes 46.17243671417236 seconds
+INFO     root:benchmark_readwrite.py:134 Start the read operation
+INFO     root:benchmark_readwrite.py:140    id                  timestamp  instrument_token  last_price  ...  depth_sell_orders_0  depth_sell_quantity_0  depth_buy_price_1  depth_buy_orders_1
+0   0 2017-06-20 07:35:05.284824         136519172      253.95  ...                  3.0                  695.0             253.60                 4.0
+1   1 2017-06-20 07:35:05.284898            340481     1637.20  ...                  7.0                  322.0            1637.05                 1.0
+
+[2 rows x 21 columns]
+INFO     root:benchmark_readwrite.py:148 Took 0.0 minutes 13.697046518325806 seconds to read data
+INFO     root:benchmark_readwrite.py:153 truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_by_pandas_multi 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:159 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:169 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:176 Took 5.0 minutes 31.27576231956482 seconds to write the data
+INFO     root:benchmark_readwrite.py:180 Truncated the table
+PASSED
+
+Run 5
+
+benchmark_readwrite.py::test_get_schema 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:47 
+CREATE TABLE kaggle_data (
+        id BIGINT, 
+        timestamp TEXT, 
+        instrument_token BIGINT, 
+        last_price FLOAT(53), 
+        volume BIGINT, 
+        sell_quantity BIGINT, 
+        last_quantity BIGINT, 
+        change FLOAT(53), 
+        average_price FLOAT(53), 
+        open FLOAT(53), 
+        high FLOAT(53), 
+        low FLOAT(53), 
+        close FLOAT(53), 
+        depth_buy_price_0 FLOAT(53), 
+        depth_buy_orders_0 BIGINT, 
+        depth_buy_quantity_0 BIGINT, 
+        depth_sell_price_0 FLOAT(53), 
+        depth_sell_orders_0 BIGINT, 
+        depth_sell_quantity_0 BIGINT, 
+        depth_buy_price_1 FLOAT(53), 
+        depth_buy_orders_1 BIGINT
+)
+
+
+PASSED
+benchmark_readwrite.py::test_insert_read_by_pandas 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:54 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:63 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:71 Took 2.0 minutes 30.542409658432007 seconds to write the data
+INFO     root:benchmark_readwrite.py:73 Start read testing with read_sql_table
+INFO     root:benchmark_readwrite.py:79 Complated the reading
+INFO     root:benchmark_readwrite.py:87 Took 0.0 minutes 13.732523441314697 seconds to read data
+INFO     root:benchmark_readwrite.py:89 Start read testing with read_sql
+INFO     root:benchmark_readwrite.py:95 Complated the reading
+INFO     root:benchmark_readwrite.py:103 Took 0.0 minutes 13.479605674743652 seconds to read data
+INFO     root:benchmark_readwrite.py:105 Truncating the table
+INFO     root:benchmark_readwrite.py:108 Truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_read_by_model 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:117 Starting the SQLAlchemy insert test
+INFO     root:benchmark_readwrite.py:130 Complated data insert in 2.0 minutes 48.801859855651855 seconds
+INFO     root:benchmark_readwrite.py:134 Start the read operation
+INFO     root:benchmark_readwrite.py:140    id                  timestamp  instrument_token  last_price  ...  depth_sell_orders_0  depth_sell_quantity_0  depth_buy_price_1  depth_buy_orders_1
+0   0 2017-06-20 07:35:05.284824         136519172      253.95  ...                  3.0                  695.0             253.60                 4.0
+1   1 2017-06-20 07:35:05.284898            340481     1637.20  ...                  7.0                  322.0            1637.05                 1.0
+
+[2 rows x 21 columns]
+INFO     root:benchmark_readwrite.py:148 Took 0.0 minutes 13.686068534851074 seconds to read data
+INFO     root:benchmark_readwrite.py:153 truncated the table
+PASSED
+benchmark_readwrite.py::test_insert_by_pandas_multi 
+-------------------------------------------------------------------- live log setup --------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:31 Loading CSV Data
+INFO     root:benchmark_readwrite.py:40 CSV data loaded to pandas
+-------------------------------------------------------------------- live log call ---------------------------------------------------------------------
+INFO     root:benchmark_readwrite.py:159 Test case insert data from Pandas DataFrame with to_sql
+INFO     root:benchmark_readwrite.py:169 Complated writing the data to DB
+INFO     root:benchmark_readwrite.py:176 Took 5.0 minutes 35.83091998100281 seconds to write the data
+INFO     root:benchmark_readwrite.py:180 Truncated the table
+PASSED
+
