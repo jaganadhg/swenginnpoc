@@ -57,6 +57,7 @@ def sample_dataframe_half():
 
     data_set = StringIO("""record_id,user_name,email_id
     12,jagan,jagan@jagan.com
+    13,maya,maya@jagan.com
     17,padma,padma@jagan.com
     18,gopi,gopi@jagan.com
     19,vidya,vaidya@jagan.com
@@ -277,7 +278,7 @@ def test_insert_rt_by_skiiping_exiting(conn_str,sample_dataframe,sample_datafram
         conn.db_session.commit()
 
         try:
-            logging.info("Trying to insert data with one duplicate")
+            logging.info("Trying to insert data with duplicates")
             conn.db_session.bulk_insert_mappings(UserData,
             sample_dataframe_half.to_dict(orient="records"))
         except IntegrityError as sqleer:
@@ -285,7 +286,7 @@ def test_insert_rt_by_skiiping_exiting(conn_str,sample_dataframe,sample_datafram
             #logging.info(sqleer)
             conn.db_session.rollback()
             integ_key_error = sqleer.orig.diag.message_detail
-
+            logging.info(sqleer)
             primary_key, pk_val = parse_integrity_err(integ_key_error)
 
             pk_object = getattr(UserData,primary_key)
@@ -312,11 +313,16 @@ def test_insert_rt_by_skiiping_exiting(conn_str,sample_dataframe,sample_datafram
 
             assert retrive_all[-1].user_name == "vidya"
 
-            conn.db_session.commit()
+            #conn.db_session.commit()
 
-            #TODO clean the table
+            logging.info('Inserted the clean data and test complete')
 
-            logging.info('Inserted theclean data')
+            
+            
+    truncate_stmt = UserData.__table__.delete()
+    conn.db_session.execute(truncate_stmt)
 
 
+    conn.db_session.commit()
+    logging.info("Cleaned the DB")
             

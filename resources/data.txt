@@ -1,0 +1,3 @@
+We are using the data
+  Ref - https://www.kaggle.com/deeiip/1m-real-time-stock-market-data-nse/version/3#log_inf.csv
+for the test
